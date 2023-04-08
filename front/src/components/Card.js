@@ -5,7 +5,7 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
-import Popup from 'reactjs-popup';
+const {flag} = require('country-emoji');
 
 
 
@@ -40,7 +40,7 @@ export default function BasicCard(props) {
       
       <CardContent>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          {props.country}
+          {props.country} {flag(props.country)}
         </Typography>
         <Typography variant="h5" component="div">
           {props.guessed ? props.name : nick}

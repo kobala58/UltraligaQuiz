@@ -21,7 +21,7 @@ function createFalseArray(size){
 
 export default function HomeScreen() {
   const [data, setData] = useState(generateRandomTeam());
-  const lil_players = data.Player.map(x => x.toLowerCase());
+  const lil_players = data.Player.map(x => x.toLowerCase().trim());
   const playerSize = data.Player.length; 
   const [guesed, changeGuessed] = useState(createFalseArray(data.Player.length)); // check_hits
   const [answer, setAnswer] = useState(''); // save ansver
