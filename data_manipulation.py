@@ -39,6 +39,7 @@ def filter_to_nice():
             if tmp["Role"] == "Coach":
                 continue
             tmp["Player"] = re.sub(r'\([^)]*\)', '', tmp["Player"])
+            tmp["Player"] = tmp["Player"].strip()
             tmp["Team"] = re.sub(r'\([^)]*\)', '', tmp["Team"])
             print(tmp)
             clean.append(tmp)
@@ -47,12 +48,10 @@ def filter_to_nice():
 
 def select_random_team():
     df = pd.read_json("clean.json")
-    print(df)
     # result = df.groupby(["Name", "Team", "Year"],as_index=False).apply(lambda x: [list(x["Player"]), list(x["Role"]), list(x["Flag"])]).apply(pd.Series)
     result = df.groupby(["Name", "Team", "Year"],as_index=False)["Player", "Role", "Flag"].agg(lambda x: list(x))
-
     print(result.head())
-    result.to_json("final.json", orient='records')
+    result.to_json("final.json", orient='records', indent=4)
 
 
 if __name__ == "__main__":

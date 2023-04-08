@@ -4,28 +4,32 @@ import Box from "@mui/material/Box";
 import TitleRender from '../components/Title';
 import { useState } from 'react';
 import AlertDialogSlide from '../components/Popup';
-
-function hide_nickname(to_hide) {
-  var hide = '';
-  for (let i = 0; i < to_hide.length; i++){
-    hide += '_';
-  }
-  return(hide);
+import ResponsiveAppBar from '../components/Header';
+import allPlayerData from './../final.json'
+function generateRandomTeam(){
+  var item = allPlayerData[Math.floor(Math.random()*allPlayerData.length)];
+  return(item);
 }
+
+function createFalseArray(size){
+  var arr = [];
+  for (let i=0; i<size; i++){
+    arr.push(false)
+  }
+  return arr
+}
+
 export default function HomeScreen() {
-  const data = {"Name":"Ultraliga Season 1","Team":"Illuminar Gaming","Year":2019,
-    "Player":["Raven","CrAzY","Kashtelan","Puki Style","delord"],
-    "Role":["Top","Jungle","Mid","Bot","Support"],
-    "Flag":["Poland","Poland","Poland","Poland","Poland"]};
-  
-  const [guesed, changeGuessed] = useState([false, false, false, false, false]); // check_hits
+  const [data, setData] = useState(generateRandomTeam());
+  const lil_players = data.Player.map(x => x.toLowerCase());
+  const playerSize = data.Player.length; 
+  const [guesed, changeGuessed] = useState(createFalseArray(data.Player.length)); // check_hits
   const [answer, setAnswer] = useState(''); // save ansver
   const [guesed_count, setGuessedCount] = useState(0); // count guessed players
   
   function handleChange (e) {
-    console.log(e.target.value.trim());
     setAnswer(e.target.value);
-    let idx = data.Player.indexOf(e.target.value.trim());
+    var idx = lil_players.indexOf(e.target.value.toLowerCase().trim());
     if (idx != -1 && guesed[idx] == false) {
       let copy = guesed;
       copy[idx] = !copy[idx];
@@ -41,7 +45,7 @@ export default function HomeScreen() {
 
   return (
   <div>
-      <Header/>
+      <ResponsiveAppBar/>
       <TitleRender />
     <div>
         <Grid container spacing={{ xs: 2, md: 1 }} columns={{ xs: 4, sm: 2, md: 12 }}
@@ -56,12 +60,11 @@ export default function HomeScreen() {
               year = {data.Year}
               team = {data.Team}
               guessed = {guesed[i]}
-              hided = {hide_nickname(value)}
               />
           </Grid>
           ))}
         </Grid>
-          {guesed_count == 5 && <AlertDialogSlide/>}
+          {guesed_count == playerSize && <AlertDialogSlide/>}
         <Box display="flex"
               justifyContent="center"
               alignItems="center"
