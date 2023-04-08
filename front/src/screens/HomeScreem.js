@@ -6,6 +6,9 @@ import { useState } from 'react';
 import AlertDialogSlide from '../components/Popup';
 import ResponsiveAppBar from '../components/Header';
 import allPlayerData from './../final.json'
+import Paper from '@mui/material/Paper';
+
+
 function generateRandomTeam(){
   var item = allPlayerData[Math.floor(Math.random()*allPlayerData.length)];
   return(item);
@@ -68,14 +71,22 @@ export default function HomeScreen() {
         <Box display="flex"
               justifyContent="center"
               alignItems="center"
-              minHeight="30vh">
+              minHeight="30vh"
+              minWidth="50vh">
 
-          <form onSubmit={e => { e.preventDefault()}}>
+          <Paper elevation={3}>
+            <div>
+              Podaj nick gracza: 
+            </div>
+            <form onSubmit={e => { e.preventDefault()}}>
+              
             <input 
               value = {answer}
               onChange = {handleChange}
-            />
+              />
+
           </form>        
+          </Paper>
         </Box>
     </div>
   </div>    
